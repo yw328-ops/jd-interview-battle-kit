@@ -32,6 +32,14 @@ jd-interview-battle-kit/
 
 ## 三、安装方式（按 AI 工具选择）
 
+### 方式 0：直接让 AI 帮你安装（适用于能操作文件/联网的智能体）
+
+如果你的 AI 能访问文件系统或联网（如 Hermes、支持工具调用的智能体），直接对它说：
+
+> "请把 github.com/yw328-ops/jd-interview-battle-kit 的 SKILL.md 安装进来，按它的规则运行"
+
+它会自己下载、读取并加载。纯对话型 AI（ChatGPT 网页版、Claude 网页版、Kimi、豆包等）没有"安装"能力，请用方式 2/3/4。
+
 ### 方式 1：Hermes Agent（原生，推荐）
 
 把 `jd-interview-battle-kit/` 目录放入技能库：
