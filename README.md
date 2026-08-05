@@ -36,6 +36,11 @@ jd-interview-battle-kit/
     └── test_cases.md           # 测试用例（模拟运行验收）
 ```
 
+## 📦 安装包下载
+
+- **GitHub**：本仓库 `dist/jd-interview-battle-kit.zip`（或右侧 Releases）
+- **安装说明**：见 `INSTALL.md`（双渠道获取 + 按工具安装）
+
 ## 快速开始
 
 1. 安装：见 `INSTALL.md`（Hermes 技能库 / ChatGPT 自定义指令 / 通用复制均可）
