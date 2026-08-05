@@ -7,12 +7,30 @@ jd-interview-battle-kit/
 ├── SKILL.md          # 核心文件：所有规则都在这里，AI 加载它即可运行
 ├── README.md         # 项目介绍（给人看的首页）
 ├── INSTALL.md        # 本文件
-├── COMPATIBILITY.md  # 各 Agent 环境兼容性说明
+├── COMPATIBILITY.md  # 各 AI 工具兼容性说明
+├── LICENSE           # MIT 开源许可
 ├── templates/        # 三阶段交付模板（AI 输出时套用）
 └── tests/            # 测试用例（验收用）
 ```
 
-## 二、安装方式（按环境选择）
+> 安装只需要 **SKILL.md 一个文件**。其余文件是辅助文档，不影响使用。
+
+## 二、获取方式（两个渠道，任选其一）
+
+### 渠道 A：GitHub 下载
+
+1. 打开仓库：`https://github.com/yw328-ops/jd-interview-battle-kit`
+2. 点绿色的 **Code** 按钮 → **Download ZIP**（下载整个仓库）
+3. 解压后，找到根目录的 `SKILL.md`
+   - 嫌麻烦也可以直接在仓库页面打开 `SKILL.md`，复制全文
+
+### 渠道 B：安装包下载
+
+1. 在发布页面下载 `jd-interview-battle-kit.zip`
+2. 解压后，找到 `SKILL.md`
+   - 两个渠道的内容完全一致，按哪个方便来
+
+## 三、安装方式（按 AI 工具选择）
 
 ### 方式 1：Hermes Agent（原生，推荐）
 
@@ -21,8 +39,6 @@ jd-interview-battle-kit/
 ```bash
 cp -r jd-interview-battle-kit ~/.hermes/skills/career/
 ```
-
-或在 Hermes 中通过技能管理创建（name: `jd-interview-battle-kit`，content 为 SKILL.md 全文，category 建议 `career`）。
 
 > 注意：新技能对当前会话不可见（技能加载器在会话启动时初始化），新开一个会话即可加载。
 
@@ -37,11 +53,11 @@ cp -r jd-interview-battle-kit ~/.hermes/skills/career/
 1. 把 `SKILL.md` 完整内容粘贴进项目指令（或作为项目文件上传）
 2. `templates/` 与 `tests/` 作为参考文档上传
 
-### 方式 4：任何支持上传文件的 AI
+### 方式 4：任何支持上传文件的 AI（Kimi / 豆包 / 通义等）
 
 把 `SKILL.md` 作为文件上传，说一句"请按这份文档的规则运行"，即可触发。
 
-## 三、使用流程
+## 四、使用流程
 
 ```
 用户发来 JD（文字/截图/链接/多份）
@@ -51,6 +67,8 @@ cp -r jd-interview-battle-kit ~/.hermes/skills/career/
 第二阶段：岗位作战地图 + 个人经历整理
         ↓ 用户说"开始练习/帮我准备面试"
 第三阶段：项目故事 + 回答骨架 + 高概率问题 + 反向提问
+        ↓ 用户说"总结一下"
+收尾：最终一页纸总结
 ```
 
 **触发话术示例**
@@ -59,16 +77,17 @@ cp -r jd-interview-battle-kit ~/.hermes/skills/career/
 - "我适不适合这个岗位" / "帮我比较几个岗位" → 第一阶段（多岗位版）
 - "继续准备" / "帮我整理岗位重点" → 第二阶段
 - "帮我准备这场面试" / "帮我预测面试问题" → 第三阶段
+- "总结一下" → 收尾一页纸总结
 
 **三阶段的边界**：不主动越级。用户只发 JD 时绝不自动进入第二、三阶段。
 
-## 四、输出文件规则
+## 五、输出文件规则
 
 - 所有输出使用 Markdown，不生成 Word/PDF
 - 用户要文件时，文件名：`JD面试作战包_<岗位名称或多岗位对比>_<YYYY-MM-DD>.md`
 - 完整文档开头永远是一页作战摘要，只附用户已进入阶段的内容
 
-## 五、常见问题
+## 六、常见问题
 
 | 问题 | 解决 |
 |---|---|
