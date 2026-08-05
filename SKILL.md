@@ -6,7 +6,7 @@ description: >-
   流程走完或用户要求时，输出最终一页纸总结收尾。
   核心原则：不编造经历、先判断后准备、只问最少关键问题、保留用户自己的说话方式。
 version: 1.2.0
-author: <your-github-username>
+author: yw328-ops
 license: MIT
 metadata:
   hermes:
