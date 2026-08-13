@@ -2,6 +2,8 @@
 
 > 先判断值不值得投，再决定怎么赢。
 
+**当前版本：1.3.3**
+
 一个把「岗位评估 + 面试准备」做成固定流程的 AI Skill：收到 JD 后**先判断岗位值不值得投入**，默认只给一页作战摘要；只有用户明确要继续，才进入岗位重点、个人经历与面试练习材料的整理。
 
 ## 它解决什么问题
@@ -27,19 +29,20 @@ jd-interview-battle-kit/
 ├── README.md                   # 本文件：项目介绍
 ├── INSTALL.md                  # 安装与使用说明
 ├── COMPATIBILITY.md            # 多 Agent 环境兼容性检查
-├── templates/                  # 三阶段独立模板（交付时直接套用）
+├── templates/                  # 三阶段 + 收尾总结模板
 │   ├── stage1_one_page_brief.md       # 第一阶段：一页作战摘要
 │   ├── stage2_battle_map.md           # 第二阶段：岗位作战地图 + 经历整理
 │   ├── stage3_interview_materials.md  # 第三阶段：面试练习材料
 │   └── stage4_final_summary.md     # 收尾：最终一页纸总结
-└── tests/
-    └── test_cases.md           # 测试用例（模拟运行验收）
+└── tests/                      # 测试用例、协议回归与运行记录
 ```
 
-## 📦 安装包下载
+## 📦 下载
 
-- **GitHub**：本仓库 `dist/jd-interview-battle-kit.zip`（或右侧 Releases）
-- **安装说明**：见 `INSTALL.md`（双渠道获取 + 按工具安装）
+- **整仓库**：点击 **Code → Download ZIP**
+- **独立安装包**：[`dist/jd-interview-battle-kit.zip`](dist/jd-interview-battle-kit.zip)
+- **一致性保证**：每次发布都会校验安装包与仓库当前文件完全一致
+- **安装说明**：见 `INSTALL.md`
 
 ## 快速开始
 

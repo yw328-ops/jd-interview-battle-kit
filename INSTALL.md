@@ -1,5 +1,7 @@
 # 安装与使用说明
 
+> 当前版本：1.3.3
+
 ## 一、目录内容说明
 
 ```
@@ -9,7 +11,7 @@ jd-interview-battle-kit/
 ├── INSTALL.md        # 本文件
 ├── COMPATIBILITY.md  # 各 AI 工具兼容性说明
 ├── LICENSE           # MIT 开源许可
-├── templates/        # 三阶段交付模板（AI 输出时套用）
+├── templates/        # 三阶段 + 收尾总结模板
 └── tests/            # 测试用例（验收用）
 ```
 
@@ -26,9 +28,9 @@ jd-interview-battle-kit/
 
 ### 渠道 B：安装包下载
 
-1. 在发布页面下载 `jd-interview-battle-kit.zip`
+1. 在仓库中打开 `dist/jd-interview-battle-kit.zip`，点击 **Download raw file**
 2. 解压后，找到 `SKILL.md`
-   - 两个渠道的内容完全一致，按哪个方便来
+   - 安装包在发布前经自动校验，与仓库当前发布文件一致
 
 ## 三、安装方式（按 AI 工具选择）
 
@@ -54,7 +56,7 @@ cp -r jd-interview-battle-kit ~/.hermes/skills/career/
 
 1. 打开自定义 GPT 编辑页（或项目指令）
 2. 把 `SKILL.md` 的**完整内容**粘贴进 Instructions
-3. 可同时把 `templates/` 三个文件粘贴为参考模板
+3. 可同时把 `templates/` 四个文件粘贴为参考模板
 
 ### 方式 3：Claude / 通用 Agent（Projects / 自定义指令）
 
