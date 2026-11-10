@@ -6,8 +6,8 @@
 <title>不可生成性体检</title>
 <style>
   :root{
-    --ink:#1c1c1e; --paper:#f6f4ef; --card:#ffffff; --line:#e4e0d8;
-    --gold:#a8744a; --gold-soft:#f0e6da; --muted:#8a8578; --danger:#9a3e2e;
+    --ink:#1a1a1a; --paper:#f7f7f5; --card:#ffffff; --line:#e0e0dd;
+    --gold:#3d4a45; --gold-soft:#eef0ee; --muted:#8a8a86; --danger:#8a3b2e;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
@@ -82,6 +82,35 @@
   .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 22px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:9;white-space:nowrap}
   .toast.show{opacity:1}
   .dim-highlight{outline:2px solid var(--gold)}
+
+  /* ===== 报告页 · 冷调编辑排版 ===== */
+  #screen-report{padding:34px 24px 60px}
+  .rp{max-width:100%}
+  .rp-kicker{font-size:11px;letter-spacing:.24em;color:#8a8a86;font-weight:600}
+  .rp-h{font-size:27px;font-weight:600;line-height:1.42;letter-spacing:.01em;margin:15px 0 10px;color:#1a1a1a}
+  .rp-h em{font-style:normal;color:#3d4a45;box-shadow:inset 0 -.34em 0 #e2e8e4}
+  .rp-lead{font-size:14.5px;line-height:1.8;color:#5a5a56;margin-bottom:28px}
+  .rp-dims{border-top:1px solid #dcdcd8;margin:0 0 28px}
+  .rp-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #eeeeec}
+  .rp-name{font-size:13.5px;color:#4a4a46;width:74px;flex:none;letter-spacing:.02em}
+  .rp-track{flex:1;height:2px;background:#e8e8e5;position:relative;overflow:hidden}
+  .rp-track i{position:absolute;left:0;top:0;height:100%;width:0;background:#b9b9b4;transition:width .9s cubic-bezier(.22,1,.36,1)}
+  .rp-pct{font-size:12.5px;color:#a5a5a1;width:32px;text-align:right;flex:none;font-variant-numeric:tabular-nums}
+  .rp-row.core .rp-name{font-weight:700;color:#1a1a1a}
+  .rp-row.core .rp-track i{background:#3d4a45}
+  .rp-row.core .rp-pct{color:#3d4a45;font-weight:600}
+  .rp-sec{font-size:11px;letter-spacing:.22em;color:#8a8a86;font-weight:600;margin-bottom:8px}
+  .rp-act{font-size:14.5px;line-height:1.85;color:#2a2a28;margin-bottom:26px}
+  .rp-boss{background:#f3f4f2;padding:16px 18px;margin-bottom:12px;font-size:14px;line-height:1.8;color:#2a2a28}
+  .rp-share{border:1px dashed #d8d8d4;padding:14px 16px;font-size:13px;line-height:1.8;color:#5a5a56;margin-bottom:26px}
+  .rp-egg{border-left:2px solid #ccd2cc;padding-left:14px;font-size:13.5px;line-height:1.85;color:#5a5a56;margin-bottom:24px}
+  .rp-foot{font-size:11.5px;color:#aaa;letter-spacing:.06em;margin-bottom:18px}
+  .rp-btns{display:flex;gap:10px}
+  .rp-btns button{flex:1;padding:14px;font-size:14px;font-family:inherit;cursor:pointer;border:1px solid #1a1a1a;border-radius:2px;background:#fff;color:#1a1a1a}
+  .rp-btns .solid{background:#1a1a1a;color:#fff}
+  .opt{border-radius:2px!important;border:1px solid var(--line)!important}
+  .btn{border-radius:2px!important}
+  .seal{border-radius:2px!important}
 </style>
 </head>
 <body>
@@ -377,55 +406,41 @@ function buildReport(){
   const second = sorted[1];
   const el = $('screen-report');
 
-  let html = '';
-  html += '<div class="report-head">';
-  html += '<div class="report-seal">UNREPLACEABLE REPORT</div>';
-  html += '<div class="report-main">AI取代你，需要<br>先<em>活一遍</em>你的人生。</div>';
-  html += '<p class="report-sub">' + MAINLINE[core.id] + '</p>';
-  html += '<p class="report-sub">你的成分里还有一笔可观的<b>'+DIMS.find(d=>d.id===second.id).name+'</b>——' + TALK[second.id][pcts[second.id]>=50?'hi':'lo'] + '</p>';
-  html += '</div>';
+  const order=[...DIMS].sort((a,b)=>pcts[b.id]-pcts[a.id]);
+  const shareTxt='我刚做完「不可生成性体检」——AI取代我，得先活一遍我的人生。我的核心成分是'+core.name+'（'+pcts[core.id]+'%）。';
 
-  // 五维
-  html += '<div class="section"><div class="section-title"><span class="bar"></span>不可生成性成分报告</div>';
-  DIMS.forEach(d=>{
-    const hi = pcts[d.id]>=50;
-    html += '<div class="dim-card">';
-    html += '<div class="dim-top"><span class="dim-name">'+d.name+'</span><span class="dim-pct">'+pcts[d.id]+'%</span></div>';
-    html += '<div class="dim-bar"><div class="dim-fill" data-w="'+pcts[d.id]+'"></div></div>';
-    html += '<div class="dim-talk">'+(d.id==='r'?TALK.r[hi?'hi':'lo']:(d.id==='f'?TALK.f[hi?'hi':'lo']:TALK[d.id][hi?'hi':'lo']))+'</div>';
-    const actTxt = d.id==='r' ? ACT_R[hi?'hi':'lo'] : ACT[d.id][hi?'hi':'lo'];
-    html += '<div class="dim-act"><b>增值动作 ▸</b> '+actTxt+'</div>';
-    html += '</div>';
+  let html='';
+  html+='<div class="rp">';
+  html+='<div class="rp-kicker">不可生成性 · 成分报告</div>';
+  html+='<h1 class="rp-h">你的核心成分是<em>'+core.name+'</em></h1>';
+  html+='<p class="rp-lead">'+MAINLINE[core.id].replace(/^你的核心成分是[^。]*。/,'')+'</p>';
+
+  html+='<div class="rp-dims">';
+  order.forEach(d=>{
+    html+='<div class="rp-row'+(d.id===core.id?' core':'')+'">'
+        +'<span class="rp-name">'+d.name+'</span>'
+        +'<span class="rp-track"><i data-w="'+pcts[d.id]+'"></i></span>'
+        +'<span class="rp-pct">'+pcts[d.id]+'</span></div>';
   });
-  html += '</div>';
+  html+='</div>';
 
-  // 彩蛋
+  const actTxt = core.id==='r' ? ACT_R[pcts.r>=50?'hi':'lo'] : ACT[core.id][pcts[core.id]>=50?'hi':'lo'];
+  html+='<div class="rp-act"><div class="rp-sec">一个动作</div>'+actTxt+'</div>';
+
   if(eggs.length){
-    html += '<div class="section"><div class="section-title"><span class="bar"></span>AI观察笔记</div>';
-    html += '<div class="note-box">'+eggs.map(e=>'<div style="margin-bottom:8px">· '+e+'</div>').join('')+'</div></div>';
+    html+='<div class="rp-egg"><div class="rp-sec">AI 观察笔记</div>'+eggs.slice(0,3).join('<br>')+'</div>';
   }
 
-  // 老板翻译版
-  html += '<div class="section"><div class="section-title"><span class="bar"></span>老板 / 猎头翻译版</div>';
-  html += '<div class="boss-box"><div class="boss-label">把这句讲给你老板听</div>'+BOSS[core.id]+'</div></div>';
-
-  // 分享
-  const shareTxt = '我刚做完「不可生成性体检」——AI取代我，得先活一遍我的人生。我的核心成分是'+core.name+'（'+pcts[core.id]+'%）。来测测AI偷不走你什么。';
-  html += '<div class="section"><div class="section-title"><span class="bar"></span>拿去晒</div>';
-  html += '<div class="share-box" id="shareTxt">'+shareTxt+'</div></div>';
-
-  // 钩子
-  html += '<div class="hook"><div class="h1">想知道这些成分能换成多少自由？</div><div class="h2">下期：「给自由算账」——把自由从感觉变成资产负债表<br>你偷不走的东西 × 你买得起的选择权</div></div>';
-  html += '<div class="footer-note">不可生成性体检 · 答得越诚实，报告越扎心</div>';
-  html += '<div style="margin-top:16px;display:flex;gap:10px">';
-  html += '<button class="btn btn-ghost" style="flex:1" onclick="copyShare()">复制分享语</button>';
-  html += '<button class="btn btn-dark" style="flex:1" onclick="location.reload()">再测一次</button>';
-  html += '</div>';
+  html+='<div class="rp-boss"><div class="rp-sec">讲给老板 / 猎头听</div>'+BOSS[core.id]+'</div>';
+  html+='<div class="rp-share">'+shareTxt+'</div>';
+  html+='<div class="rp-foot">不可生成性体检 · 18 题 · 不评分，不贴标签</div>';
+  html+='<div class="rp-btns"><button onclick="copyShare()">复制分享语</button><button class="solid" onclick="location.reload()">再测一次</button></div>';
+  html+='</div>';
 
   el.innerHTML = html;
   show('screen-report');
   // 动画条
-  setTimeout(()=>{el.querySelectorAll('.dim-fill').forEach(f=>{f.style.width=f.dataset.w+'%'})},120);
+  setTimeout(()=>{el.querySelectorAll('.rp-track i').forEach(f=>{f.style.width=f.dataset.w+'%'})},120);
 }
 
 function copyShare(){

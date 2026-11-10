@@ -6,8 +6,8 @@
 <title>自由速算 · 给自由算账</title>
 <style>
   :root{
-    --ink:#1c1c1e; --paper:#f6f4ef; --card:#ffffff; --line:#e4e0d8;
-    --gold:#a8744a; --gold-soft:#f0e6da; --muted:#8a8578; --green:#3f7d4e; --red:#9a3e2e;
+    --ink:#1a1a1a; --paper:#f7f7f5; --card:#ffffff; --line:#e0e0dd;
+    --gold:#3d4a45; --gold-soft:#eef0ee; --muted:#8a8a86; --green:#3f5d4e; --red:#8a3b2e;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
@@ -78,6 +78,33 @@
   .free-banner{background:var(--green);color:#fff;border-radius:14px;padding:16px;font-size:14.5px;font-weight:700;line-height:1.7;margin-bottom:16px}
   .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 22px;border-radius:20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:9;white-space:nowrap}
   .toast.show{opacity:1}
+
+  /* ===== 报告页 · 冷调编辑排版 ===== */
+  #screen-report{padding:34px 24px 60px}
+  .rp-kicker{font-size:11px;letter-spacing:.24em;color:#8a8a86;font-weight:600}
+  .rp-h{font-size:26px;font-weight:600;line-height:1.42;margin:15px 0 10px;color:#1a1a1a}
+  .rp-h em{font-style:normal;color:#3d4a45;box-shadow:inset 0 -.34em 0 #e2e8e4}
+  .rp-lead{font-size:14.5px;line-height:1.85;color:#5a5a56;margin-bottom:28px}
+  .rp-dims{border-top:1px solid #dcdcd8;margin:0 0 22px}
+  .rp-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #eeeeec}
+  .rp-name{font-size:13.5px;color:#4a4a46;width:84px;flex:none}
+  .rp-track{flex:1;height:2px;background:#e8e8e5;position:relative;overflow:hidden}
+  .rp-track i{position:absolute;left:0;top:0;height:100%;width:0;background:#b9b9b4;transition:width .9s cubic-bezier(.22,1,.36,1)}
+  .rp-pct{font-size:12.5px;color:#a5a5a1;width:32px;text-align:right;flex:none;font-variant-numeric:tabular-nums}
+  .rp-row.low .rp-name{font-weight:700;color:#1a1a1a}
+  .rp-row.low .rp-track i{background:#3d4a45}
+  .rp-sec{font-size:11px;letter-spacing:.22em;color:#8a8a86;font-weight:600;margin-bottom:8px}
+  .rp-note{font-size:14px;line-height:1.85;color:#2a2a28;margin-bottom:26px}
+  .rp-list{margin-bottom:26px}
+  .rp-list div{font-size:13.5px;line-height:1.9;color:#3a3a38}
+  .rp-share{border:1px dashed #d8d8d4;padding:14px 16px;font-size:13px;line-height:1.8;color:#5a5a56;margin-bottom:26px}
+  .rp-foot{font-size:11.5px;color:#aaa;letter-spacing:.06em;margin-bottom:18px}
+  .rp-btns{display:flex;gap:10px}
+  .rp-btns button{flex:1;padding:14px;font-size:14px;font-family:inherit;cursor:pointer;border:1px solid #1a1a1a;border-radius:2px;background:#fff;color:#1a1a1a}
+  .rp-btns .solid{background:#1a1a1a;color:#fff}
+  .opt{border-radius:2px!important;border:1px solid var(--line)!important}
+  .btn{border-radius:2px!important}
+  .seal{border-radius:2px!important}
 </style>
 </head>
 <body>
@@ -287,51 +314,50 @@ function buildReport(){
   if(pcts.a>=50) canSay.push('你可以离开让你内耗的圈子——工作之外你还有人');
   if(canSay.length<2){ const fallback=['你可以对一件小事说"不"——从今天开始练习','你可以拒绝一次无效社交——把时间还给自己']; canSay.push(...fallback.slice(0,2-canSay.length)); }
   cantSay.push('你说不出口的「不」：' + ({c:'钱没攒够，腰杆硬不起来',s:'本事还没摆上市场货架',x:'太久没存信任，开口怕被拒',h:'身体在报警，自由不敢用力',a:'卸了工牌，不知道自己是誰'}[bottom.id]));
-  cantSay.push('最该补的一格：'+bottom.name+'——它不是焦虑，是一笔算得清的账');
+
 
   const el=$('screen-report');
-  let html='<div class="report-head">';
-  html+='<div class="report-seal">FREEDOM BALANCE REPORT</div>';
-  if(freeFlag) html+='<div class="free-banner">🕊️ 你已经自由了——这份体检对你无效，去帮帮别人吧。</div>';
-  html+='<div class="balance-big">你的自由余额</div>';
-  html+='<div class="balance-num">'+tier+'</div>';
-  html+='<div class="tier-pill '+tierCls+'">五账综合 '+totalPct+'%</div>';
-  html+='<p class="report-sub">'+tierSub+'</p>';
-  html+='</div>';
+  const order=[...DIMS].sort((a,b)=>pcts[b.id]-pcts[a.id]);
+  const shareTxt='我刚做完「自由速算」——我的自由余额：'+tier+'（五账综合'+totalPct+'%）。你的呢？';
 
-  html+='<div class="section"><div class="section-title"><span class="bar"></span>五个账户余额</div>';
-  DIMS.forEach(d=>{
-    const hi=pcts[d.id]>=50;
-    const talk={c:['你的现金账户在报警——先攒"F-you money"，哪怕每月500','现金是自由的入场券——你已经买得起前几排了'],s:['脱了工牌没人付钱=你的本事还没上架','你的本事在市场上已经有人认了'],x:['你的信任存款薄——关系要开始存了','有人愿意为你说话——这是AI生成不了的资产'],h:['身体在漏气——地基不牢，上面的自由都是空中楼阁','身体是你的好队友——别透支它'],a:['工作之外你没有锚——小心把全部自己押在一份工上','你有人、有生活、有退路——这是最贵的自由']}[d.id][hi?1:0];
-    html+='<div class="dim-card"><div class="dim-top"><span class="dim-name">'+d.name+'</span><span class="dim-pct">'+pcts[d.id]+'%</span></div>';
-    html+='<div class="dim-bar"><div class="dim-fill" data-w="'+pcts[d.id]+'"></div></div>';
-    html+='<div class="dim-talk">'+talk+'</div></div>';
+  let html='';
+  html+='<div class="rp">';
+  html+='<div class="rp-kicker">自由速算 · 账户报告</div>';
+  if(freeFlag) html+='<div class="rp-h">你已经自由了</div><p class="rp-lead">这份速算表对你已经过时——你该做的不是算账，是帮别人算。</p>';
+  else{
+    html+='<div class="rp-h">你的自由余额：<em>'+tier+'</em></div>';
+    html+='<p class="rp-lead">'+tierSub+'</p>';
+  }
+
+  html+='<div class="rp-dims">';
+  order.forEach(d=>{
+    html+='<div class="rp-row'+(d.id===bottom.id?' low':'')+'">'
+        +'<span class="rp-name">'+d.name+'</span>'
+        +'<span class="rp-track"><i data-w="'+pcts[d.id]+'"></i></span>'
+        +'<span class="rp-pct">'+pcts[d.id]+'</span></div>';
   });
   html+='</div>';
 
-  html+='<div class="section"><div class="section-title"><span class="bar"></span>选择权清单</div><div class="two-col">';
-  html+='<div class="col ok"><div class="ct">✅ 你说得出口的「不」</div><div>'+canSay.map(x=>'· '+x).join('<br>')+'</div></div>';
-  html+='<div class="col gap"><div class="ct">❌ 你想说但买不起的「不」</div><div>'+cantSay.map(x=>'· '+x).join('<br>')+'</div></div>';
-  html+='</div></div>';
+  html+='<div class="rp-note"><div class="rp-sec">最该补的一格</div>'+bottom.name+'——它不是焦虑，是一笔算得清的账。五账综合 '+totalPct+'%。</div>';
+
+  html+='<div class="rp-list"><div class="rp-sec">说得出口的「不」</div>'
+      + canSay.slice(0,3).map(x=>'· '+x).join('<br>')
+      + '<div class="rp-sec" style="margin-top:16px">还买不起的「不」</div>'
+      + cantSay.join('<br>')
+      + '</div>';
 
   if(EGGS.length){
-    html+='<div class="section"><div class="section-title"><span class="bar"></span>账本批注</div>';
-    html+='<div class="note-box">'+EGGS.map(e=>'<div style="margin-bottom:7px">· '+e+'</div>').join('')+'</div></div>';
+    html+='<div class="rp-list"><div class="rp-sec">账本批注</div>'+EGGS.slice(0,3).map(x=>'· '+x).join('<br>')+'</div>';
   }
 
-  const shareTxt='我刚做完「自由速算」——我的自由余额：'+tier+'（五账综合'+totalPct+'%）。你的呢？';
-  html+='<div class="section"><div class="section-title"><span class="bar"></span>拿去晒</div>';
-  html+='<div class="share-box" id="shareTxt">'+shareTxt+'</div></div>';
-
-  html+='<div class="hook"><div class="h1">想把这页账算成真正的人生规划？</div><div class="h2">深度版「一天审计」：上午盘账户 → 下午列选择权清单 → 傍晚交付你的个人自由资产负债表<br>速算表是地图，审计是施工</div></div>';
-  html+='<div class="footer-note">自由速算 · 给自由算账 · 答得越诚实，账越好看</div>';
-  html+='<div style="margin-top:16px;display:flex;gap:10px">';
-  html+='<button class="btn btn-ghost" style="flex:1;background:transparent;border:1.5px solid var(--line);border-radius:14px;padding:15px;font-size:14px;color:var(--muted);cursor:pointer" onclick="copyShare()">复制分享语</button>';
-  html+='<button class="btn btn-dark" style="flex:1" onclick="location.reload()">再算一次</button></div>';
+  html+='<div class="rp-share">'+shareTxt+'</div>';
+  html+='<div class="rp-foot">自由速算 · 12 题 · 给自由算账</div>';
+  html+='<div class="rp-btns"><button onclick="copyShare()">复制分享语</button><button class="solid" onclick="location.reload()">再算一次</button></div>';
+  html+='</div>';
 
   el.innerHTML=html;
   show('screen-report');
-  setTimeout(()=>{el.querySelectorAll('.dim-fill').forEach(f=>{f.style.width=f.dataset.w+'%'})},120);
+  setTimeout(()=>{el.querySelectorAll('.rp-track i').forEach(f=>{f.style.width=f.dataset.w+'%'})},120);
 }
 function copyShare(){
   const txt=document.getElementById('shareTxt').textContent;
